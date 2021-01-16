@@ -8,7 +8,7 @@ billy = Tello()
 # Setup tkinter window
 top = Tk()
 top.title('Tello Controller')
-top.geometry('600x600')
+top.geometry('1100x600')
 
 
 def start_sweep():
@@ -67,30 +67,37 @@ def turn_right():
     billy.turn_right()
 
 
-# Add dashboard button
-forwardButton = Button(top, height=2, width=20, text="Forward 10cm", command=forward)
-backButton = Button(top, height=2, width=20, text="Back 10cm", command=back)
-leftButton = Button(top, height=2, width=20, text="Rotate left", command=turn_left)
-rightButton = Button(top, height=2, width=20, text="Rotate right", command=turn_right)
-resetPositionButton = Button(top, height=2, width=20, text="Ready position", command=reset_position)
-takeoffButton = Button(top, height=2, width=20, text="Take Off", command=takeoff)
+# Create dashboard button
+readyToLandButton = Button(top, height=2, width=20, text="Prepare to land", command=ready_to_land)
 landButton = Button(top, height=2, width=20, text="Land", command=land)
 sweepButton = Button(top, height=2, width=20, text="Run sweep", command=start_sweep)
+takeoffButton = Button(top, height=2, width=20, text="Take Off", command=takeoff)
+resetPositionButton = Button(top, height=2, width=20, text="Ready position", command=reset_position)
+
+forwardButton = Button(top, height=2, width=20, text="Forward 10cm", command=forward)
+
+leftButton = Button(top, height=2, width=20, text="Rotate left", command=turn_left)
 overrideButton = Button(top, height=2, width=20, text="Override", command=override_sweep)
-readyToLandButton = Button(top, height=2, width=20, text="Prepare to land", command=ready_to_land)
+rightButton = Button(top, height=2, width=20, text="Rotate right", command=turn_right)
+
+backButton = Button(top, height=2, width=20, text="Back 10cm", command=back)
 quitButton = Button(top, height=2, width=20, text="Quit", command=quit_dashboard)
 
+# Setup button layout
+readyToLandButton.grid(row=1, column=1)
+landButton.grid(row=1, column=2)
+sweepButton.grid(row=1, column=4)
+takeoffButton.grid(row=1, column=6)
+resetPositionButton.grid(row=1, column=7)
 
-forwardButton.pack(padx=10, pady=5)
-backButton.pack(padx=10, pady=5)
-leftButton.pack(padx=10, pady=5)
-rightButton.pack(padx=10, pady=5)
-resetPositionButton.pack(padx=10, pady=5)
-takeoffButton.pack(padx=10, pady=5)
-landButton.pack(padx=10, pady=5)
-sweepButton.pack(padx=10, pady=5)
-overrideButton.pack(padx=10, pady=5)
-readyToLandButton.pack(padx=10, pady=5)
-quitButton.pack(padx=10, pady=5)
+forwardButton.grid(row=3, column=4)
+
+leftButton.grid(row=5, column=3)
+overrideButton.grid(row=5, column=4)
+rightButton.grid(row=5, column=5)
+
+backButton.grid(row=7, column=4)
+quitButton.grid(row=9, column=4)
+
 
 top.mainloop()
