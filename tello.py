@@ -44,6 +44,9 @@ class Tello():
         self.receiveThread.daemon = True
         self.receiveThread.start()
 
+        # Put Tello into command mode
+        self.send("command", 3)
+
     # Send the message to Tello and allow for a delay in seconds
     def send(self, message, delay=1):
         # Try to send the message otherwise print the exception
@@ -70,26 +73,17 @@ class Tello():
                 print("Error receiving: " + str(e))
             break
 
-    def sweep(self):
-        # Put Tello into command mode
-        self.send("command", 3)
-        if not self.parameter_sweep_lock: return False
-
+    def takeoff(self):
         # Send the takeoff command
         self.send("takeoff", 3)
-        if not self.parameter_sweep_lock: return False
 
+    def reset_position(self):
         # Start at checkpoint 1 and print destination
-        print("From the charging base to the starting checkpoint of sweep pattern.\n")
-
         self.send(frombase[0] + " " + str(frombase[1]), 4)
-        if not self.parameter_sweep_lock: return False
-
         self.send(frombase[2] + " " + str(frombase[3]), 4)
-        if not self.parameter_sweep_lock: return False
-
         print("Current location: Checkpoint 0 " + "\n")
 
+    def sweep(self):
         # Billy's flight path
         for i in range(len(checkpoint)):
             if i == len(checkpoint) - 1:
@@ -103,21 +97,18 @@ class Tello():
             print("Arrived at current location: Checkpoint " + str(checkpoint[i][0]) + "\n")
             time.sleep(4)
 
+    def ready_to_land(self):
         # Reach back at Checkpoint 0
-        print("Complete sweep. Return to charging base.\n")
         self.send(tobase[0] + " " + str(tobase[1]), 4)
-        if not self.parameter_sweep_lock: return False
         self.send(tobase[2] + " " + str(tobase[3]), 4)
-        if not self.parameter_sweep_lock: return False
 
         # Turn to original direction before land
         print("Turn to original direction before land.\n")
         self.send("cw 180", 4)
-        if not self.parameter_sweep_lock: return False
 
+    def land(self):
         # Land
         self.send("land", 3)
-        if not self.parameter_sweep_lock: return False
 
     def close_socket(self):
         # Close the socket
