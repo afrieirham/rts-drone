@@ -122,3 +122,15 @@ class Tello():
 
     def terminate_sweep(self):
         self.parameter_sweep_lock = False
+
+    def forward(self):
+        self.send("forward 10")
+
+    def back(self):
+        self.send("back 10")
+
+    def turn_left(self):
+        self.send("cw 90")
+
+    def turn_right(self):
+        self.send("ccw 90")
