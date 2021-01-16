@@ -5,6 +5,8 @@ import threading
 import time
 
 # Travel to/from starting checkpoint 0 from/to the charging base
+from threading import Thread
+
 frombase = ["forward", 50, "ccw", 150]
 tobase = ["ccw", 150, "forward", 50]
 
@@ -20,6 +22,8 @@ checkpoint = [
 
 
 class Tello():
+    parameter_sweep_thread: Thread
+    parameter_sweep_lock = False
 
     def __init__(self):
         # IP and port of Tello
@@ -39,10 +43,6 @@ class Tello():
         self.receiveThread = threading.Thread(target=self.receive)
         self.receiveThread.daemon = True
         self.receiveThread.start()
-
-        # Setup parameter_sweep thread
-        self.parameter_sweep_thread = threading.Thread(target=self.sweep)
-        self.parameter_sweep_lock = True
 
     # Send the message to Tello and allow for a delay in seconds
     def send(self, message, delay=1):
@@ -124,7 +124,9 @@ class Tello():
         self.sock.close()
 
     def run_sweep(self):
+        self.parameter_sweep_thread = threading.Thread(target=self.sweep)
         self.parameter_sweep_thread.daemon = True
+        self.parameter_sweep_lock = True
         self.parameter_sweep_thread.start()
 
     def terminate_sweep(self):
