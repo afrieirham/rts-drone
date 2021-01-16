@@ -100,8 +100,7 @@ class Tello():
             self.send(checkpoint[i][3] + " " + str(checkpoint[i][4]), 4)
             if not self.parameter_sweep_lock: return False
 
-            print("Arrived at current location: Checkpoint " +
-                  str(checkpoint[i][0]) + "\n")
+            print("Arrived at current location: Checkpoint " + str(checkpoint[i][0]) + "\n")
             time.sleep(4)
 
         # Reach back at Checkpoint 0
